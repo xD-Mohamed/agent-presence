@@ -1,7 +1,7 @@
 export const APPLICATION_ID = "1558920148331532308";
 // Public artwork is pinned to immutable commits, never session/user uploads.
 export const CLAWD_ARTWORK_BASE =
-  "https://raw.githubusercontent.com/xD-Mohamed/agent-presence/8a4eaa3894407882e74b017fa50ffca3f0c96f93/artwork/claude";
+  "https://raw.githubusercontent.com/xD-Mohamed/agent-presence/26aa89074664122834400c8f1f0e4206bea70fd7/artwork/claude-native";
 export const CHATGPT_LOGO =
   "https://raw.githubusercontent.com/xD-Mohamed/agent-presence/eb22919fb9e380496cd0f93b59cb354ebc2ddfe0/artwork/branding/chatgpt-mark-transparent.png";
 export const ARTWORK_BASE =
