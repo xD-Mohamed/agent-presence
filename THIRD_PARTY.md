@@ -7,3 +7,7 @@ The GIF files under artwork are animation-format conversions of the built-in Cod
 sharp is used only by the maintainer's artwork build script; its license and third-party dependency notices are supplied by its package.
 
 The current small ChatGPT badge uses the official openai_logo_regular vector geometry from the same locally installed desktop app, rendered in white with transparent padding and no background. Earlier app-icon variants remain for historical releases. OpenAI's Help Center identifies the ChatGPT mark: https://help.openai.com/en/articles/7905742-what-does-the-official-chatgpt-ios-app-icon-look-like . The badge identifies the OpenAI service and does not imply endorsement of this community integration.
+
+## Claude / Clawd
+
+Claude, Claude Code and the Clawd character identify Anthropic's product. Artwork under `artwork/claude/clawd` is a community pixel-art rendition drawn by `scripts/build-clawd.js`, not extracted official animation frames. Anthropic's character and trademarks are not relicensed under this project's MIT source-code license. This integration is not affiliated with or endorsed by Anthropic. Product reference: https://github.com/anthropics/claude-code .
