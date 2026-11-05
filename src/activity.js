@@ -1,5 +1,5 @@
 import path from "node:path";
-import { CHATGPT_LOGO } from "./config.js";
+import { CHATGPT_LOGO, CLAUDE_LOGO } from "./config.js";
 
 export const LABELS = Object.freeze({
   idle: "Idle",
@@ -164,10 +164,10 @@ export function activity(snapshot, imageUrl) {
           ? "Clawd companion"
           : "Codex companion",
     };
-    if (snapshot.provider !== "claude") {
-      out.assets.small_image = CHATGPT_LOGO;
-      out.assets.small_text = "ChatGPT";
-    }
+    out.assets.small_image =
+      snapshot.provider === "claude" ? CLAUDE_LOGO : CHATGPT_LOGO;
+    out.assets.small_text =
+      snapshot.provider === "claude" ? "Claude" : "ChatGPT";
   }
   return out;
 }

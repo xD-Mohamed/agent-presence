@@ -24,6 +24,78 @@ const event = (type, message = {}, extra = {}) => ({
   ...extra,
 });
 
+test("Claude exposes observed effort alongside the model and respects hide-model", () => {
+  const s = new ClaudeState();
+  s.accept(event("user", { content: "PRIVATE_PROMPT" }));
+  s.accept(
+    event(
+      "assistant",
+      {
+        model: "claude-opus-5-5",
+        content: [{ type: "thinking", thinking: "PRIVATE_REASONING" }],
+      },
+      { effort: "xhigh" },
+    ),
+  );
+  const snapshot = s.snapshot(now, now);
+  assert.equal(snapshot.effort, "xhigh");
+  assert.equal(
+    activity(snapshot).details,
+    "Thinking · Claude Opus 5.5 · Xhigh",
+  );
+  assert.equal(s.snapshot(now, now, false, true).effort, null);
+  assert.doesNotMatch(
+    JSON.stringify(activity(s.snapshot(now, now, false, true))),
+    /Opus|Xhigh|PRIVATE/,
+  );
+  s.accept(
+    event(
+      "assistant",
+      {
+        model: "claude-opus-5-5",
+        content: [{ type: "text", text: "PRIVATE" }],
+      },
+      { effort: "high" },
+    ),
+  );
+  assert.equal(s.snapshot(now, now).effort, "high");
+});
+
+test("Claude effort never comes from text, never accepts unknown values, and resets for a new prompt or model", () => {
+  const s = new ClaudeState();
+  const message = {
+    model: "claude-opus-5-5",
+    content: [{ type: "text", text: "effort: high" }],
+  };
+  s.accept(event("assistant", message));
+  assert.equal(s.snapshot(now, now).effort, undefined);
+  s.accept(event("assistant", message, { effort: "high" }));
+  s.accept(
+    event("user", {
+      content: [
+        { type: "tool_result", tool_use_id: "tool", content: "private" },
+      ],
+    }),
+  );
+  assert.equal(s.snapshot(now, now).effort, "high");
+  s.accept(event("user", { content: "new prompt" }));
+  assert.equal(s.snapshot(now, now).effort, undefined);
+  s.accept(event("assistant", message, { effort: "max" }));
+  s.accept(event("assistant", { ...message, model: "claude-sonnet-5-5" }));
+  assert.equal(s.snapshot(now, now).effort, undefined);
+  for (const effort of [
+    "PRIVATE_EFFORT",
+    "auto",
+    "unset",
+    123,
+    { secret: "PRIVATE" },
+  ]) {
+    s.accept(event("assistant", message, { effort }));
+    assert.equal(s.snapshot(now, now).effort, undefined);
+    assert.doesNotMatch(JSON.stringify(s), /PRIVATE/);
+  }
+});
+
 test("interrupted Claude turns release the card and compaction summaries do not start new turns", () => {
   for (const text of [
     "[Request interrupted by user]",
@@ -242,4 +314,45 @@ test("Claude failures, approvals and VS Code have fixed public states", () => {
   );
   assert.equal(s.snapshot(now, now).state, "failed");
   assert.doesNotMatch(JSON.stringify(s), /PRIVATE_ERROR/);
+});
+
+test("large transcript gaps do not reuse an old turn's effort", (t) => {
+  const home = mkdtempSync(join(tmpdir(), "agent-presence-effort-"));
+  t.after(() => rmSync(home, { recursive: true, force: true }));
+  const dir = join(home, "projects", "project");
+  mkdirSync(dir, { recursive: true });
+  const first = event(
+    "assistant",
+    {
+      model: "claude-opus-5-5",
+      content: [{ type: "text", text: "old" }],
+      stop_reason: "end_turn",
+    },
+    { effort: "high" },
+  );
+  const middle = JSON.stringify({
+    type: "unknown",
+    content: "x".repeat(3 * 1024 * 1024),
+  });
+  const last = event("assistant", {
+    model: "claude-opus-5-5",
+    content: [{ type: "thinking", thinking: "private" }],
+  });
+  for (const prefix of [
+    [],
+    [event("system", {}, { subtype: "compact_boundary" })],
+  ]) {
+    writeFileSync(
+      join(dir, "parent.jsonl"),
+      JSON.stringify(first) +
+        "\n" +
+        middle +
+        "\n" +
+        [...prefix, last].map(JSON.stringify).join("\n") +
+        "\n",
+    );
+    const snapshot = new ClaudeSource(home).snapshot(now, ["CLI"]);
+    assert.equal(snapshot.state, "thinking");
+    assert.equal(snapshot.effort, undefined);
+  }
 });

@@ -143,7 +143,7 @@ test("planning, searching, approvals, errors and compaction have meaningful dist
   assert.equal(ANIMATIONS.waiting, "waiting");
   assert.equal(ANIMATIONS.done, "waving");
 });
-test("Claude payload uses its own identity and omits the ChatGPT badge", () => {
+test("Claude payload uses its own identity and a Claude badge; text-only hides both images", () => {
   const out = activity(
     {
       provider: "claude",
@@ -156,6 +156,14 @@ test("Claude payload uses its own identity and omits the ChatGPT badge", () => {
   assert.equal(out.name, "Claude Code");
   assert.match(out.details, /Claude Opus 4\.6/);
   assert.equal(out.assets.large_text, "Claude Code Desktop");
-  assert.equal(out.assets.small_text, undefined);
-  assert.equal(out.assets.small_image, undefined);
+  assert.equal(out.assets.small_text, "Claude");
+  assert.match(
+    out.assets.small_image,
+    /^https:\/\/raw\.githubusercontent\.com\/xD-Mohamed\/agent-presence\/[0-9a-f]{40}\/artwork\/branding\/claude-mark-transparent\.png$/,
+  );
+  assert.notEqual(out.assets.small_image, CHATGPT_LOGO);
+  assert.equal(
+    activity({ provider: "claude", state: "thinking" }).assets,
+    undefined,
+  );
 });

@@ -75,7 +75,7 @@ Run the same Windows installer or npm `install` command above to upgrade from Co
 
 ```text
 Claude Code
-Editing code · Claude Opus 4.6
+Editing code · Claude Opus 5.5 · High
 Project: My App  |  +400 −50
 ⏱ Elapsed time
 ```
@@ -91,7 +91,7 @@ Project: My App  |  Git clean
 
 - **Identity:** Claude Code with orange Clawd, or ChatGPT Codex with the selected Codex companion.
 - **Activity:** thinking, planning, editing, reading, searching, testing, running commands, waiting, idle, ready or needs attention, as available in local session records.
-- **Model:** the model from the session. Codex reasoning effort is shown when available; Claude effort is omitted when unavailable.
+- **Model:** the model from the session. Reasoning effort is shown when recorded by either assistant. Claude uses its per-response `effort` metadata (`low`, `medium`, `high`, `xhigh`, `max`); it is omitted until observed, rather than guessed from model defaults or settings. `--hide-model` hides both model and effort.
 - **Project:** only the folder basename; generated Codex projectless folder names are hidden.
 - **Git:** staged + unstaged tracked changes against HEAD, refreshed at most every 10 seconds. Untracked and binary files are excluded. After committing, the card shows `Git clean`.
 
@@ -131,7 +131,7 @@ Codex companions keep their own look:
 
 <img src="artwork/natural/null-signal/review.gif" width="96" alt="Codex companion thinking"> <img src="artwork/natural/null-signal/running.gif" width="96" alt="Codex companion working"> <img src="artwork/natural/null-signal/waiting.gif" width="96" alt="Codex companion waiting"> <img src="artwork/natural/null-signal/waving.gif" width="96" alt="Codex companion ready">
 
-Codex retains the original application frames and native timing. Supported Codex pets: `codex`, `dewey`, `fireball`, `hoots`, `rocky`, `seedy`, `stacky`, `bsod`, `null-signal`. The active supported pet is used; if disabled or unsupported, the last supported pet or default Codex companion is used. Custom pets are never uploaded. Only Codex cards show the ChatGPT badge.
+Codex retains the original application frames and native timing. Supported Codex pets: `codex`, `dewey`, `fireball`, `hoots`, `rocky`, `seedy`, `stacky`, `bsod`, `null-signal`. The active supported pet is used; if disabled or unsupported, the last supported pet or default Codex companion is used. Custom pets are never uploaded. A small transparent service badge appears at the lower-right of the pet: Claude for Claude Code, ChatGPT for Codex. `--no-image` hides both the companion and its badge.
 
 ```sh
 npx --yes https://codeload.github.com/xD-Mohamed/agent-presence/tar.gz/main install --pet null-signal

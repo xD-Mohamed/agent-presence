@@ -6,6 +6,7 @@ import { PresenceSelection } from "./presence.js";
 import { surfaceAvailable } from "./liveness.js";
 
 const STALE = 10 * 60_000;
+const EFFORTS = new Set(["low", "medium", "high", "xhigh", "max"]);
 const surfaces = {
   cli: "CLI",
   "claude-desktop": "Desktop",
@@ -74,6 +75,8 @@ export class ClaudeState {
     if (!Number.isFinite(time)) return;
     if (typeof event.sessionId === "string") this.id = event.sessionId;
     if (typeof event.cwd === "string") this.cwd = event.cwd;
+    // A bounded-tail gap cannot carry an old turn's effort into new events.
+    if (!this.updatedAt) this.effort = undefined;
     const message = event.message || {};
     const content = Array.isArray(message.content)
       ? message.content.filter((x) => x && typeof x === "object")
@@ -99,13 +102,24 @@ export class ClaudeState {
         return;
       }
       const result = content.some((x) => x.type === "tool_result");
-      if (!result || !this.active) this.startedAt = time / 1000;
+      if (!result || !this.active) {
+        this.startedAt = time / 1000;
+        this.effort = undefined;
+      }
       this.active = true;
       this.state = "thinking";
       this.completedAt = undefined;
     } else if (event.type === "assistant") {
-      if (typeof message.model === "string" && message.model !== "<synthetic>")
+      if (
+        typeof message.model === "string" &&
+        message.model !== "<synthetic>"
+      ) {
+        if (message.model !== this.model) this.effort = undefined;
         this.model = message.model;
+      }
+      // Actual per-response metadata, never prompts, API bodies or settings.
+      if (Object.hasOwn(event, "effort"))
+        this.effort = EFFORTS.has(event.effort) ? event.effort : undefined;
       this.startedAt ??= time / 1000;
       if (event.isApiErrorMessage || message.stop_reason === "refusal") {
         this.active = false;
@@ -164,6 +178,7 @@ export class ClaudeState {
       active: this.active,
       surface: this.surface,
       model: hideModel ? null : this.model,
+      effort: hideModel ? null : this.effort,
       project: projectName(this.cwd, hideProject),
       startedAt: this.startedAt,
       localCwd: this.cwd,

@@ -1,4 +1,6 @@
 export const APPLICATION_ID = "1558920148331532308";
+export const CLAUDE_LOGO =
+  "https://raw.githubusercontent.com/xD-Mohamed/agent-presence/6a1a3df7ed59d286178faad5b1be9cd64662d603/artwork/branding/claude-mark-transparent.png";
 // Public artwork is pinned to immutable commits, never session/user uploads.
 export const CLAWD_ARTWORK_BASE =
   "https://raw.githubusercontent.com/xD-Mohamed/agent-presence/26aa89074664122834400c8f1f0e4206bea70fd7/artwork/claude-native";
