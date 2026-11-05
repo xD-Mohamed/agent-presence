@@ -10,14 +10,22 @@
 Animated companions · Live activity · Model · Project & Git changes
 
 [![Node.js](https://img.shields.io/badge/Node.js-22.18%2B-43853d)](https://nodejs.org/)
+[![Tests](https://github.com/xD-Mohamed/agent-presence/actions/workflows/test.yml/badge.svg)](https://github.com/xD-Mohamed/agent-presence/actions/workflows/test.yml)
 [![License](https://img.shields.io/badge/Source-MIT-blue)](LICENSE)
 [![No tokens](https://img.shields.io/badge/Account_tokens-not_needed-8b5cf6)](#privacy)
 
-[Install](#install-once) · [Commands](#commands) · [Compatibility](#compatibility) · [Privacy](#privacy)
+[Install](#install-once) · [Preview](#what-appears) · [Companions](#companions) · [Commands](#commands) · [Privacy](#privacy)
 
 </div>
 
 Formerly **Codex Discord RPC**. One background helper follows both assistants.
+
+| Assistant       | Desktop | CLI | VS Code | Companion               |
+| --------------- | :-----: | :-: | :-----: | ----------------------- |
+| **Codex**       |    ✓    |  ✓  |    ✓    | Your selected Codex pet |
+| **Claude Code** |    ✓    |  ✓  |    ✓    | Orange **Clawd**        |
+
+Local sessions only. See [compatibility](#compatibility) for process and transcript limitations.
 
 ## Install once
 
@@ -41,12 +49,27 @@ npx --yes github:xD-Mohamed/agent-presence
 
 Keep the terminal open; press **Ctrl+C** to stop.
 
+### Updating an existing installation
+
+Run the same `install` command above to upgrade from Codex Discord RPC. Your saved privacy options and Codex companion are preserved. Claude support is enabled automatically; no separate helper or uninstall is needed.
+
 ## What appears
+
+**Working with Claude Code**
 
 ```text
 Claude Code
 Editing code · Claude Opus 4.6
 Project: My App  |  +400 −50
+⏱ Elapsed time
+```
+
+**Working with Codex**
+
+```text
+ChatGPT Codex
+Thinking · GPT-6 Astra · High
+Project: My App  |  Git clean
 ⏱ Elapsed time
 ```
 
@@ -69,6 +92,10 @@ Clawd is a community pixel-art rendition of Anthropic's orange character, with n
 | Thinking                                                              | Working                                                               | Waiting                                                               | Finished                                                              |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | <img src="artwork/claude/clawd/review.gif" width="96" alt="Thinking"> | <img src="artwork/claude/clawd/running.gif" width="96" alt="Working"> | <img src="artwork/claude/clawd/waiting.gif" width="96" alt="Waiting"> | <img src="artwork/claude/clawd/waving.gif" width="96" alt="Finished"> |
+
+Codex companions keep their own look:
+
+<img src="artwork/natural/null-signal/review.gif" width="96" alt="Codex companion thinking"> <img src="artwork/natural/null-signal/running.gif" width="96" alt="Codex companion working"> <img src="artwork/natural/null-signal/waiting.gif" width="96" alt="Codex companion waiting"> <img src="artwork/natural/null-signal/waving.gif" width="96" alt="Codex companion ready">
 
 Codex retains the original application frames and native timing. Supported Codex pets: `codex`, `dewey`, `fireball`, `hoots`, `rocky`, `seedy`, `stacky`, `bsod`, `null-signal`. The active supported pet is used; if disabled or unsupported, the last supported pet or default Codex companion is used. Custom pets are never uploaded. Only Codex cards show the ChatGPT badge.
 

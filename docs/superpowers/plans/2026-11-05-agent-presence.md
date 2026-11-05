@@ -35,4 +35,4 @@ The existing checkout is a fresh clone with no user edits. Changes execute inlin
 The name is an implementation choice delegated by the user's request. Native
 Clawd-style code artwork avoids an image-generation dependency in the build.
 
-Verification: 50 local unit tests pass; Windows startup integration requires an isolated CI host because the workstation publisher is running. Independent review completed after interruption/compaction and Windows MSIX detection fixes. Artwork pinned to commit 8a4eaa3894407882e74b017fa50ffca3f0c96f93. Publication and hosted checks are the final release step.
+Verification: 50 local unit tests pass. Independent review completed after interruption/compaction and Windows MSIX detection fixes. Artwork pinned to commit 8a4eaa3894407882e74b017fa50ffca3f0c96f93. GitHub run 42082488810 passed all five jobs: Linux/Windows on Node 22.18 and 24, plus direct GitHub npx installation/update/stop/start/uninstall. The workstation publisher was not interrupted. Live VS Code and a full desktop reboot remain unverified.
