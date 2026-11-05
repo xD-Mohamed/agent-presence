@@ -1,0 +1,11 @@
+{
+  "repository": "https://github.com/yuyongyan29-dev/claude-pet",
+  "commit": "92af7cea39e4331019c41341d90d486cb6f00784",
+  "path": "clawd-pet/hooks/sprites.ts",
+  "sha256": "1b9c881eb7b3217f14fbbb68016b1bc62e61883fafdad198476fe7589acb4883",
+  "artworkOwner": "Anthropic",
+  "license": "Artwork is explicitly excluded from upstream MIT license; see NOTICE.",
+  "animations": 25,
+  "sourceFrames": 1093,
+  "dataSha256": "3beb510894a217c0768ecce7da06b8521c4681ff813c9b48c0356588b817bd42"
+}

@@ -1,0 +1,239 @@
+{
+  "repository": "https://github.com/yuyongyan29-dev/claude-pet",
+  "commit": "92af7cea39e4331019c41341d90d486cb6f00784",
+  "path": "clawd-pet/hooks/sprites.ts",
+  "sha256": "1b9c881eb7b3217f14fbbb68016b1bc62e61883fafdad198476fe7589acb4883",
+  "artworkOwner": "Anthropic",
+  "license": "Artwork is explicitly excluded from upstream MIT license; see NOTICE.",
+  "animations": 25,
+  "sourceFrames": 1093,
+  "dataSha256": "3beb510894a217c0768ecce7da06b8521c4681ff813c9b48c0356588b817bd42",
+  "canvas": 256,
+  "pixelScale": 5,
+  "clips": {
+    "break-dancing": {
+      "source": "BreakDancing",
+      "frames": 149,
+      "fps": 12,
+      "durationMs": 12420,
+      "mirrored": false,
+      "sha256": "7337afdec6fc73d82840ef68fdc53bb6dc7257a03e1b569507f3e4596abf6149"
+    },
+    "confetti": {
+      "source": "Confetti",
+      "frames": 34,
+      "fps": 12,
+      "durationMs": 2830,
+      "mirrored": false,
+      "sha256": "8cd143b09373f1363771d90ebc39b0ff79603e044f51d9705359987805d97fbf"
+    },
+    "crab-walking": {
+      "source": "CrabWalking",
+      "frames": 20,
+      "fps": 12,
+      "durationMs": 1670,
+      "mirrored": false,
+      "sha256": "6248f1079b45044a5a012687a29867d89289ad0e30f4f297b809cc0ba883bc52"
+    },
+    "crab-walking-left": {
+      "source": "CrabWalking",
+      "frames": 20,
+      "fps": 12,
+      "durationMs": 1670,
+      "mirrored": true,
+      "sha256": "dbf6c51841c414ad629993c620f719d2323bed2e10a23bf95eb58208e25fc9cc"
+    },
+    "dancing-happy": {
+      "source": "DancingHappy",
+      "frames": 40,
+      "fps": 12,
+      "durationMs": 3330,
+      "mirrored": false,
+      "sha256": "3545e536366a03cfb8e2097a003ee66db845150668cfe9e66fffc2a976f51f71"
+    },
+    "desktop": {
+      "source": "Desktop",
+      "frames": 88,
+      "fps": 12,
+      "durationMs": 7330,
+      "mirrored": false,
+      "sha256": "d02090b7d6ed939d364ce6e7788a8a78a02b8a444d6b0df125de51e36f906e07"
+    },
+    "disappointed": {
+      "source": "Disappointed",
+      "frames": 44,
+      "fps": 12,
+      "durationMs": 3670,
+      "mirrored": false,
+      "sha256": "fadc06b06a4ab86c8786d8dafa2a94e20fcc9f5d2dbb85136fbeae1889054220"
+    },
+    "dizzy": {
+      "source": "Dizzy",
+      "frames": 41,
+      "fps": 12,
+      "durationMs": 3420,
+      "mirrored": false,
+      "sha256": "6ca70468f1eb5f4adf0fca709aba2755de1ac24f0e96ef06305f1a2c02aedac9"
+    },
+    "excited": {
+      "source": "Excited",
+      "frames": 23,
+      "fps": 12,
+      "durationMs": 1920,
+      "mirrored": false,
+      "sha256": "2719ed0cad97837ed28c478e4f1d47105179d98ab4d4a0f03cac86d6a802ec27"
+    },
+    "facepalm": {
+      "source": "Facepalm",
+      "frames": 35,
+      "fps": 12,
+      "durationMs": 2920,
+      "mirrored": false,
+      "sha256": "8723f6b30f09d0980a6bfeb85a841ae23059a3a87265067e5924cf7a913c3687"
+    },
+    "hula": {
+      "source": "Hula",
+      "frames": 54,
+      "fps": 12,
+      "durationMs": 4500,
+      "mirrored": false,
+      "sha256": "63f48d280a2c3f2d2632ff6f2be188fc0c1d3f11ca2b835e02a401e78642a4cb"
+    },
+    "jumping": {
+      "source": "Jumping",
+      "frames": 21,
+      "fps": 12,
+      "durationMs": 1750,
+      "mirrored": false,
+      "sha256": "6b7c7fff90507f16743d9bb16c70b7c91a1bd178db385e239678595913757801"
+    },
+    "jumping-happy": {
+      "source": "JumpingHappy",
+      "frames": 21,
+      "fps": 12,
+      "durationMs": 1750,
+      "mirrored": false,
+      "sha256": "84bf997d7d52624da772c7c500d39d167487ca1094994e85f485d3d28f9e6671"
+    },
+    "laptop": {
+      "source": "Laptop",
+      "frames": 43,
+      "fps": 12,
+      "durationMs": 3580,
+      "mirrored": false,
+      "sha256": "b21afa0346c0d8237ff6416613ba2a8f814042c63c4882fa4b5352dce4cb76b2"
+    },
+    "lightbulb": {
+      "source": "Lightbulb",
+      "frames": 50,
+      "fps": 12,
+      "durationMs": 4170,
+      "mirrored": false,
+      "sha256": "f47415d6af38b3c6a65dc9605142433e251794b45fa8c0c7d357b5383245d6cc"
+    },
+    "looking-around": {
+      "source": "LookingAround",
+      "frames": 31,
+      "fps": 12,
+      "durationMs": 2580,
+      "mirrored": false,
+      "sha256": "c504d38539fd5088bf9a7525aa30bcf370f0c549b474547f6d99c7e32553093f"
+    },
+    "looking-around-eyes-only": {
+      "source": "LookingAroundEyesOnly",
+      "frames": 42,
+      "fps": 12,
+      "durationMs": 3500,
+      "mirrored": false,
+      "sha256": "77fe42130f269c04cde3a3ebdd4c26f13739d5b25af83aae8f574e78e0ef77df"
+    },
+    "meditating": {
+      "source": "Meditating",
+      "frames": 60,
+      "fps": 12,
+      "durationMs": 5000,
+      "mirrored": false,
+      "sha256": "c5d3eac1b3a64ce8bb1762c91cf31c89f809c22877a7dcec36afbd7aeb2aed8c"
+    },
+    "pointing": {
+      "source": "Pointing",
+      "frames": 43,
+      "fps": 12,
+      "durationMs": 3580,
+      "mirrored": false,
+      "sha256": "fa23ee93d644dbbe820cf2aa3e79a40443c702c03c040b4e69b4762a6b08c641"
+    },
+    "running": {
+      "source": "Running",
+      "frames": 20,
+      "fps": 12,
+      "durationMs": 1670,
+      "mirrored": false,
+      "sha256": "0527834ac6f9ec7cd337d0f8c2c52bf3d07e88769ecc2f1dffff19a6dd890cf6"
+    },
+    "running-left": {
+      "source": "Running",
+      "frames": 20,
+      "fps": 12,
+      "durationMs": 1670,
+      "mirrored": true,
+      "sha256": "a8af1b10d5fb35e9e8bb2bca982794005ffea36625a6ad111d6ebdf1676a0673"
+    },
+    "spark": {
+      "source": "Spark",
+      "frames": 73,
+      "fps": 12,
+      "durationMs": 6080,
+      "mirrored": false,
+      "sha256": "1eee8372ac09d3d64a21a2455d696164299cefd0db164b29c9fca4b348089615"
+    },
+    "swaying": {
+      "source": "Swaying",
+      "frames": 49,
+      "fps": 12,
+      "durationMs": 4080,
+      "mirrored": false,
+      "sha256": "ccbd4442b1a0285eaf374b79b10d55a6b65b3f4e6d202c0374292bae03a5c31f"
+    },
+    "thinking": {
+      "source": "Thinking",
+      "frames": 38,
+      "fps": 12,
+      "durationMs": 3170,
+      "mirrored": false,
+      "sha256": "6fe2d7845f43833a92a149d0d6655f2c622448b6135d3b2d6e4aefd7cf432d6e"
+    },
+    "turning": {
+      "source": "Turning",
+      "frames": 29,
+      "fps": 12,
+      "durationMs": 2420,
+      "mirrored": false,
+      "sha256": "a217f2ee40b1a872c23932f33eec55aa7945864d8c5cd6c2e3b82a81e1f8c084"
+    },
+    "walking": {
+      "source": "Walking",
+      "frames": 28,
+      "fps": 12,
+      "durationMs": 2330,
+      "mirrored": false,
+      "sha256": "de7e771d2644ae7d243e7cf6c10971c361db2ef6736dbb992222e02afacfffb1"
+    },
+    "walking-left": {
+      "source": "Walking",
+      "frames": 28,
+      "fps": 12,
+      "durationMs": 2330,
+      "mirrored": true,
+      "sha256": "95ded672860d153a9425a19151c33da834e12123ba60b781823a79554debc58c"
+    },
+    "waving": {
+      "source": "Waving",
+      "frames": 17,
+      "fps": 12,
+      "durationMs": 1420,
+      "mirrored": false,
+      "sha256": "199ac40327ae20bdbec518ab9fe54d9b0eed21bf9043bd0ecdc324f7beabb9b3"
+    }
+  }
+}
