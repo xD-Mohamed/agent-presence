@@ -2,13 +2,14 @@ param([Parameter(Mandatory=$true)][string]$Package)
 $ErrorActionPreference = 'Stop'
 $root = Join-Path ([IO.Path]::GetTempPath()) ('rpc-distribution-' + [guid]::NewGuid())
 $previous = @{}
-foreach ($key in @('APPDATA', 'LOCALAPPDATA', 'CODEX_HOME', 'npm_config_cache')) {
+foreach ($key in @('APPDATA', 'LOCALAPPDATA', 'CODEX_HOME', 'CLAUDE_CONFIG_DIR', 'npm_config_cache')) {
   $previous[$key] = [Environment]::GetEnvironmentVariable($key, 'Process')
 }
 New-Item -ItemType Directory -Path $root | Out-Null
 $env:APPDATA = Join-Path $root 'Roaming'
 $env:LOCALAPPDATA = Join-Path $root 'Local'
 $env:CODEX_HOME = Join-Path $root 'codex'
+$env:CLAUDE_CONFIG_DIR = Join-Path $root 'claude'
 $env:npm_config_cache = Join-Path $root 'npm-cache'
 $installed = Join-Path $env:LOCALAPPDATA 'Programs\Codex Discord RPC\src\cli.js'
 Push-Location $root
@@ -18,7 +19,7 @@ try {
   if ($LASTEXITCODE -ne 0) { throw 'Fresh GitHub installation failed' }
   if (!(Test-Path -LiteralPath $installed)) { throw 'Installed CLI is missing' }
   $cached = @(Get-ChildItem (Join-Path $env:npm_config_cache '_npx') -Filter cli.js -Recurse |
-    Where-Object { $_.FullName -match 'node_modules[\\/]codex-discord-rpc[\\/]src[\\/]cli.js$' })
+    Where-Object { $_.FullName -match 'node_modules[\\/]agent-presence[\\/]src[\\/]cli.js$' })
   if ($cached.Count -ne 1) { throw 'Expected one complete npx package' }
   # Repeat using the same cache, as a user updating an existing installation does.
   & npx.cmd --yes $Package install

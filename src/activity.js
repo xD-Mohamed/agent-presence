@@ -97,6 +97,12 @@ export function modelLabel(model, effort) {
   if (typeof model !== "string" || !/^[a-zA-Z0-9._-]{1,64}$/.test(model))
     return null;
   const name = model
+    .replace(
+      /^claude-(opus|sonnet|haiku)-(\d+)-(\d+)(?:-\d{8})?$/i,
+      (_, family, major, minor) =>
+        `Claude ${family[0].toUpperCase()}${family.slice(1)} ${major}.${minor}`,
+    )
+    .replace(/^claude-/i, "Claude ")
     .replace(/^gpt-/i, "GPT-")
     .replace(
       /-(astra|sol|luna|terra|codex|mini|max|nano|latest)\b/gi,
@@ -119,7 +125,7 @@ export function activity(snapshot, imageUrl) {
   if (!snapshot) return null;
   const label = modelLabel(snapshot.model, snapshot.effort);
   const out = {
-    name: "ChatGPT Codex",
+    name: snapshot.provider === "claude" ? "Claude Code" : "ChatGPT Codex",
     type: 0,
     details: [LABELS[snapshot.state] || LABELS.working, label]
       .filter(Boolean)
@@ -152,12 +158,16 @@ export function activity(snapshot, imageUrl) {
       );
     out.assets = {
       large_image: u.href,
-      small_image: CHATGPT_LOGO,
-      small_text: "ChatGPT",
       large_text: ["Desktop", "VS Code", "CLI"].includes(snapshot.surface)
-        ? `Codex ${snapshot.surface}`
-        : "Codex companion",
+        ? `${snapshot.provider === "claude" ? "Claude Code" : "Codex"} ${snapshot.surface}`
+        : snapshot.provider === "claude"
+          ? "Clawd companion"
+          : "Codex companion",
     };
+    if (snapshot.provider !== "claude") {
+      out.assets.small_image = CHATGPT_LOGO;
+      out.assets.small_text = "ChatGPT";
+    }
   }
   return out;
 }

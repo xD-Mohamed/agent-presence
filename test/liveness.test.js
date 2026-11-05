@@ -7,6 +7,60 @@ import {
 } from "../src/liveness.js";
 import { activity, ANIMATIONS } from "../src/activity.js";
 
+test("Claude MSIX app and its bundled backend are Desktop, resolved native versions are CLI", () => {
+  for (const executable of [
+    "C:/Program Files/WindowsApps/Claude_4.16336.0.0_x64__publisher/app/Claude.exe",
+    "C:/Users/Test/AppData/Local/Claude-Data/claude_publisher/claude-code/2.1.317/hash/claude.exe",
+    "/Users/test/Library/Application Support/Claude/claude-code/2.1.317/claude",
+  ])
+    assert.deepEqual(runningSurfaces([executable], "claude"), ["Desktop"]);
+  assert.deepEqual(
+    runningSurfaces(
+      ["/home/test/.local/share/claude/versions/2.1.317"],
+      "claude",
+    ),
+    ["CLI"],
+  );
+});
+
+test("Claude executable paths distinguish Desktop, native CLI and extension", () => {
+  assert.deepEqual(
+    runningSurfaces(
+      [
+        "C:/Users/Test/AppData/Local/AnthropicClaude/claude.exe",
+        "/Applications/Claude.app/Contents/MacOS/Claude",
+        "C:/Users/Test/.local/bin/claude.exe",
+        "/home/me/.vscode/extensions/anthropic.claude-code-2/resources/claude",
+        "/usr/bin/node",
+        "/usr/bin/codex",
+        "/usr/bin/code",
+      ],
+      "claude",
+    ),
+    ["Desktop", "CLI", "VS Code"],
+  );
+});
+test("Node-based Claude CLI remains unknown instead of rejecting fresh transcripts", async () => {
+  const probe = new ProcessProbe({
+    provider: "claude",
+    platform: "linux",
+    run: async () => ({ stdout: "/usr/bin/node\n" }),
+  });
+  assert.deepEqual(await probe.read(0), ["CLI?"]);
+  const idle = new IdlePresence();
+  assert.equal(idle.update(null, ["CLI?"], 0), null);
+  assert.equal(
+    idle.update(
+      { surface: "CLI", active: true, state: "thinking" },
+      ["CLI?"],
+      1,
+    ).state,
+    "thinking",
+  );
+  probe.run = async () => ({ stdout: "/usr/bin/unrelated\n" });
+  assert.deepEqual(await probe.read(5000), []);
+});
+
 test("detects Desktop, extension and CLI without mistaking the publisher or generic VS Code for Codex", () => {
   assert.deepEqual(
     runningSurfaces([

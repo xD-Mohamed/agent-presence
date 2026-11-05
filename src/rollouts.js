@@ -143,11 +143,12 @@ export class RolloutState {
     };
   }
 }
-class Tail {
-  constructor() {
+export class Tail {
+  constructor(State = RolloutState) {
+    this.State = State;
     this.offset = 0;
     this.remainder = Buffer.alloc(0);
-    this.state = new RolloutState();
+    this.state = new this.State();
   }
   consume(buffer) {
     const all = Buffer.concat([this.remainder, buffer]);
@@ -172,7 +173,7 @@ class Tail {
     ) {
       this.offset = 0;
       this.remainder = Buffer.alloc(0);
-      this.state = new RolloutState();
+      this.state = new this.State();
     }
     this.inode = stat.ino;
     if (stat.size === this.offset) return;
@@ -183,8 +184,15 @@ class Tail {
         const n = readSync(fd, head, 0, head.length, 0);
         this.consume(head.subarray(0, n));
         const previous = this.state;
-        this.state = new RolloutState();
-        for (const key of ["id", "cwd", "surface", "excluded"])
+        this.state = new this.State();
+        for (const key of [
+          "id",
+          "cwd",
+          "surface",
+          "excluded",
+          "model",
+          "effort",
+        ])
           this.state[key] = previous[key];
         this.remainder = Buffer.alloc(0);
         this.offset = stat.size - MAX_READ;

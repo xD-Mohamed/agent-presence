@@ -1,9 +1,10 @@
 {
-  "name": "codex-discord-rpc",
-  "version": "0.3.6",
-  "description": "Discord Rich Presence for Codex with animated companions, live activity, model, effort and private-by-default Git totals.",
+  "name": "agent-presence",
+  "version": "0.4.0",
+  "description": "Discord Rich Presence for Codex and Claude Code, with animated companions and private-by-default activity.",
   "type": "module",
   "bin": {
+    "agent-presence": "src/cli.js",
     "codex-discord-rpc": "src/cli.js"
   },
   "engines": {
@@ -25,13 +26,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xD-Mohamed/codex-discord-rpc.git"
+    "url": "https://github.com/xD-Mohamed/agent-presence.git"
   },
   "keywords": [
     "codex",
     "discord",
     "rich-presence",
-    "pets"
+    "pets",
+    "claude",
+    "claude-code",
+    "clawd"
   ],
   "devDependencies": {
     "prettier": "^3.9.10",

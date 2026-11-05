@@ -20,7 +20,7 @@ export function singleInstance(port = 64637) {
     server.once("error", () =>
       reject(
         new Error(
-          "Codex Discord RPC is already running, or local port 64637 is in use.",
+          "Agent Presence is already running, or local port 64637 is in use.",
         ),
       ),
     );
@@ -48,10 +48,10 @@ export function stopInstance(port = 64637) {
     const socket = net.createConnection({ host: "127.0.0.1", port });
     let response = "";
     socket.setTimeout(2000, () =>
-      socket.destroy(new Error("Codex Discord RPC did not respond.")),
+      socket.destroy(new Error("Agent Presence did not respond.")),
     );
     socket.on("error", () =>
-      reject(new Error("No running Codex Discord RPC instance was found.")),
+      reject(new Error("No running Agent Presence instance was found.")),
     );
     socket.on("connect", () => socket.write("codex-discord-rpc:stop\n"));
     socket.on("data", (chunk) => {

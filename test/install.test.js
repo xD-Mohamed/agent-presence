@@ -92,3 +92,14 @@ test("saved Codex home is independent of login environment and cwd", () => {
     "--hide-project",
   ]);
 });
+test("Claude home is persisted absolutely for login startup", () => {
+  const cwd = path.resolve("fixture");
+  assert.deepEqual(persistentArgs(["--claude-home", "claude-data"], {}, cwd), [
+    "--claude-home",
+    path.join(cwd, "claude-data"),
+  ]);
+  assert.deepEqual(
+    persistentArgs([], { CLAUDE_CONFIG_DIR: "claude-env" }, cwd),
+    ["--claude-home", path.join(cwd, "claude-env")],
+  );
+});

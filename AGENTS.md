@@ -1,4 +1,4 @@
-# Codex Discord RPC
+# Agent Presence
 
 Node ESM CLI; Node >=22.18 for read-only node:sqlite. Runtime has no network calls except local Discord IPC; Discord fetches public artwork URLs. sharp is for maintainer artwork builds only.
 
@@ -18,3 +18,13 @@ Node ESM CLI; Node >=22.18 for read-only node:sqlite. Runtime has no network cal
 - Shared Discord Application ID is public, not a credential. Never use another project's ID.
 - Built-in artwork remains third-party OpenAI artwork, outside the MIT source-code license. Current animation URLs use artwork/natural with the native Codex frame delays. The ChatGPT badge uses official vector art with transparent padding for a smaller footprint.
 - `.codegraph/` is local only. Update docs when compatibility changes.
+
+## Claude Code and product identity (0.4.0)
+
+- `claude.js` reads parent `projects/*/*.jsonl` transcripts. Respect `CLAUDE_CONFIG_DIR` / `--claude-home`. No hooks, auth/config reads or assistant writes. Known entrypoints: cli, claude-desktop, claude-vscode, vscode; absent means legacy CLI. Exclude SDK and sidechains.
+- `rollouts.js` exports the bounded Tail used by both providers. Claude also expires by recognized event timestamps, so metadata-only writes cannot revive stale work.
+- `presence.js` selects by provider plus session ID, preserving real-project priority and sticky oldest-active selection. Idle memories are separate per provider. `CLI?` means Node may host a legacy Claude CLI: permit fresh metadata but never invent Idle.
+- `companion.js` selects Clawd for Claude; Codex pet memory stays independent. `activity.js` switches name and omits the ChatGPT badge for Claude.
+- Product/package/repository: Agent Presence / agent-presence. Keep the old binary alias, install IDs/paths, task names and single-instance protocol for upgrade compatibility. Discord application ID stays unchanged; its registered name is a separate portal setting.
+- Clawd builder: `node scripts/build-clawd.js`; community SVG pixel rendition, nine transparent GIFs. Pin artwork base to an immutable published commit.
+- Startup integration requires an isolated Windows host with no active publisher. Never stop a user's running publisher just to run tests. CI covers that path.

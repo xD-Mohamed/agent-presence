@@ -143,3 +143,19 @@ test("planning, searching, approvals, errors and compaction have meaningful dist
   assert.equal(ANIMATIONS.waiting, "waiting");
   assert.equal(ANIMATIONS.done, "waving");
 });
+test("Claude payload uses its own identity and omits the ChatGPT badge", () => {
+  const out = activity(
+    {
+      provider: "claude",
+      state: "editing",
+      model: "claude-opus-4-6",
+      surface: "Desktop",
+    },
+    "https://example.com/clawd/running.gif",
+  );
+  assert.equal(out.name, "Claude Code");
+  assert.match(out.details, /Claude Opus 4\.6/);
+  assert.equal(out.assets.large_text, "Claude Code Desktop");
+  assert.equal(out.assets.small_text, undefined);
+  assert.equal(out.assets.small_image, undefined);
+});

@@ -19,6 +19,7 @@ import {
 import { spawn, execFileSync } from "node:child_process";
 import { stopInstance, instanceStatus, waitForStop } from "./instance.js";
 
+// Stable compatibility identity: keep existing installs, startup entries and preferences.
 const ID = "codex-discord-rpc";
 export function installPaths(
   platform = process.platform,
@@ -101,7 +102,7 @@ export function startupContents(paths, node, args = []) {
       .replaceAll("`", "\\`")
       .replaceAll("%", "%%") +
     '"';
-  return `[Desktop Entry]\nType=Application\nName=Codex Discord RPC\nComment=${ID} managed startup\nExec=${argv.map(quote).join(" ")}\nTerminal=false\nX-GNOME-Autostart-enabled=true\n`;
+  return `[Desktop Entry]\nType=Application\nName=Agent Presence\nComment=${ID} managed startup\nExec=${argv.map(quote).join(" ")}\nTerminal=false\nX-GNOME-Autostart-enabled=true\n`;
 }
 export function windowsArguments(paths, node, args = []) {
   const argv = [
@@ -162,9 +163,7 @@ export async function startInstalled(paths = installPaths()) {
     readFileSync(path.join(paths.root, "install-record.json"), "utf8"),
   );
   if (record.id !== ID || !Array.isArray(record.args))
-    throw new Error(
-      "No valid Codex Discord RPC installation. Run install first.",
-    );
+    throw new Error("No valid Agent Presence installation. Run install first.");
   const child = spawn(
     record.node,
     [
@@ -193,12 +192,15 @@ export async function startInstalled(paths = installPaths()) {
 }
 export function persistentArgs(args, env = process.env, cwd = process.cwd()) {
   const saved = [...args];
-  const index = saved.indexOf("--codex-home");
-  if (index >= 0) {
-    if (!saved[index + 1]) throw new Error("Missing --codex-home path.");
-    saved[index + 1] = path.resolve(cwd, saved[index + 1]);
-  } else if (env.CODEX_HOME) {
-    saved.push("--codex-home", path.resolve(cwd, env.CODEX_HOME));
+  for (const [flag, value] of [
+    ["--codex-home", env.CODEX_HOME],
+    ["--claude-home", env.CLAUDE_CONFIG_DIR],
+  ]) {
+    const index = saved.indexOf(flag);
+    if (index >= 0) {
+      if (!saved[index + 1]) throw new Error(`Missing ${flag} path.`);
+      saved[index + 1] = path.resolve(cwd, saved[index + 1]);
+    } else if (value) saved.push(flag, path.resolve(cwd, value));
   }
   return saved;
 }

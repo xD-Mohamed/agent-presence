@@ -34,10 +34,12 @@ test(
       LOCALAPPDATA: process.env.LOCALAPPDATA,
       APPDATA: process.env.APPDATA,
       CODEX_HOME: process.env.CODEX_HOME,
+      CLAUDE_CONFIG_DIR: process.env.CLAUDE_CONFIG_DIR,
     };
     process.env.LOCALAPPDATA = path.join(root, "Local");
     process.env.APPDATA = path.join(root, "Roaming");
     process.env.CODEX_HOME = path.join(root, "codex");
+    process.env.CLAUDE_CONFIG_DIR = path.join(root, "claude");
     const paths = installPaths();
     const legacy = path.join(
       path.dirname(paths.startup),
@@ -49,7 +51,13 @@ test(
       "Codex Discord RPC.lnk",
     );
     const oldRuntime = path.join(paths.legacyRoot, "src", "activity.js");
-    const args = ["--hide-project", "--codex-home", process.env.CODEX_HOME];
+    const args = [
+      "--hide-project",
+      "--codex-home",
+      process.env.CODEX_HOME,
+      "--claude-home",
+      process.env.CLAUDE_CONFIG_DIR,
+    ];
     try {
       mkdirSync(path.dirname(paths.startup), { recursive: true });
       writeFileSync(legacy, "' codex-discord-rpc managed startup\r\n");
@@ -151,7 +159,13 @@ class Probe {
       assert.deepEqual(
         JSON.parse(readFileSync(path.join(paths.root, "install-record.json")))
           .args,
-        ["--hide-project", "--codex-home", process.env.CODEX_HOME],
+        [
+          "--hide-project",
+          "--codex-home",
+          process.env.CODEX_HOME,
+          "--claude-home",
+          process.env.CLAUDE_CONFIG_DIR,
+        ],
       );
       await stopInstance();
       await waitForStop();
