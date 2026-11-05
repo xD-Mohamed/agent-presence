@@ -20,6 +20,10 @@ jobs:
       - run: npm pack --dry-run
   github-install:
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        transport: [github, https]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,4 +34,16 @@ jobs:
         shell: pwsh
         env:
           PACKAGE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-        run: ./scripts/test-distribution.ps1 -Package "github:xD-Mohamed/agent-presence#$env:PACKAGE_SHA"
+          PACKAGE_TRANSPORT: ${{ matrix.transport }}
+        run: |
+          $package = if ($env:PACKAGE_TRANSPORT -eq 'github') { "github:xD-Mohamed/agent-presence#$env:PACKAGE_SHA" } else { "https://codeload.github.com/xD-Mohamed/agent-presence/tar.gz/$env:PACKAGE_SHA" }
+          ./scripts/test-distribution.ps1 -Package $package
+  windows-direct-install:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install without Node, npm, Git or npm cache
+        shell: powershell
+        env:
+          PACKAGE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: ./scripts/test-bootstrap-install.ps1 -Revision $env:PACKAGE_SHA

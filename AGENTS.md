@@ -26,5 +26,13 @@ Node ESM CLI; Node >=22.18 for read-only node:sqlite. Runtime has no network cal
 - `presence.js` selects by provider plus session ID, preserving real-project priority and sticky oldest-active selection. Idle memories are separate per provider. `CLI?` means Node may host a legacy Claude CLI: permit fresh metadata but never invent Idle.
 - `companion.js` selects Clawd for Claude; Codex pet memory stays independent. `activity.js` switches name and omits the ChatGPT badge for Claude.
 - Product/package/repository: Agent Presence / agent-presence. Keep the old binary alias, install IDs/paths, task names and single-instance protocol for upgrade compatibility. Discord application ID stays unchanged; its registered name is a separate portal setting.
-- Clawd builder: `node scripts/build-clawd.js`; community SVG pixel rendition, nine transparent GIFs. Pin artwork base to an immutable published commit.
+- Clawd builder: `node scripts/build-clawd.js`; decode the pinned JSON sprite data in `artwork/claude-native/source`, never execute upstream TypeScript. Preserve all 25 source sequences / 1,093 frames, 12fps via cumulative centisecond rounding, and transparent unclipped pixels. Three mirrored movement variants make 28 GIFs. `node scripts/preview-clawd.js` rebuilds the README gallery. Pin the artwork base to an immutable published commit. `src/clawd.js` maps public states to allowed clips and rotates variants every 30 seconds; Codex and custom nine-file artwork mappings stay unchanged. Artwork is Anthropic-owned and excluded from MIT; retain NOTICE and provenance.
 - Startup integration requires an isolated Windows host with no active publisher. Never stop a user's running publisher just to run tests. CI covers that path.
+
+## Direct Windows installation (0.5.0)
+
+- `install.ps1` is the primary Windows path: HTTPS ZIP, runtime-file allowlist extraction, no npm/Git/SSH/cache dependency. Never recommend changing execution policy; Windows npm examples use `npx.cmd` and HTTPS archives.
+- Reuse Node >=22.18 after an in-memory SQLite probe, or download private Node 24.14.1 x64/ARM64 with pinned official archive SHA-256. Determine architecture through RuntimeInformation; apps can omit processor environment variables. Retain private Node for reinstalls; never alter system Node or PATH.
+- Staging is under LocalAppData/AgentPresence/InstallCache with a GUID leaf. Recursive cleanup must verify the absolute root and leaf. A per-user OS mutex prevents overlapping bootstrap/control operations.
+- `test/bootstrap.test.js` runs safe mocked-network PowerShell 5.1 checks. `scripts/test-bootstrap-install.ps1` is CI-only: no Node/npm/Git in PATH, private runtime, saved-option upgrade, stop/start/uninstall. Never run it on the active publisher host.
+- CLI help/install lazy-load SQLite, avoiding irrelevant experimental warnings during installation.

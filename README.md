@@ -1,7 +1,7 @@
 <div align="center">
 
 <img src="artwork/natural/null-signal/review.gif" width="128" alt="Codex companion">
-<img src="artwork/claude/clawd/review.gif" width="128" alt="Clawd thinking">
+<img src="artwork/claude-native/clawd/thinking.gif" width="128" alt="Clawd thinking">
 
 # Agent Presence
 
@@ -29,29 +29,45 @@ Local sessions only. See [compatibility](#compatibility) for process and transcr
 
 ## Install once
 
-You need **Node.js 22.18+** and the **Discord desktop app** on the same computer as your assistant.
+### Windows — recommended
+
+Open a **normal PowerShell terminal** as your own user and paste:
+
+```powershell
+irm https://raw.githubusercontent.com/xD-Mohamed/agent-presence/main/install.ps1 | iex
+```
+
+No Git, npm, SSH keys or manual Node installation needed. The installer downloads directly over HTTPS. It reuses compatible Node, or prepares a private Node 24.14.1 runtime with a verified official SHA-256. It does not change PATH, Git configuration or PowerShell execution policy, and does not require Administrator.
+
+Use a regular terminal rather than an AI agent's restricted sandbox, which may block DNS, downloads, app folders or login-task registration. Keep **Discord desktop** on the same computer as your assistant.
+
+### macOS / Linux, or an existing Node installation
+
+Requires **Node.js 22.18+**:
 
 ```sh
-npx --yes github:xD-Mohamed/agent-presence install
+npx --yes https://codeload.github.com/xD-Mohamed/agent-presence/tar.gz/main install
 ```
 
 Starts in the background now and automatically at login. No Application ID, account token, API key, hooks or per-project setup.
 
-> **بالعربي:** شغّل الأمر مرة واحدة. الأداة هتعرض نشاط Codex وClaude Code على Discord، وتبدّل الشخصية تلقائيًا. مش لازم تفعّل الـpet داخل التطبيق.
+**Windows PowerShell:** use **`npx.cmd`** instead of `npx` in npm-based examples. This avoids the blocked `npx.ps1` script. The direct HTTPS archive URL also avoids Git/SSH.
+
+> **بالعربي:** على Windows شغّل أمر PowerShell الأول من نافذة عادية. مش لازم Administrator ولا تثبيت Node أو Git يدويًا. الأداة هتعرض نشاط Codex وClaude Code وتبدّل الشخصية تلقائيًا.
 
 This is distributed through GitHub; `npx agent-presence` is not available until an npm registry release is published. The old GitHub repository URL redirects here and the `codex-discord-rpc` executable alias is retained.
 
-To try foreground mode without automatic startup:
+With Node/npm already installed, try foreground mode without automatic startup:
 
 ```sh
-npx --yes github:xD-Mohamed/agent-presence
+npx --yes https://codeload.github.com/xD-Mohamed/agent-presence/tar.gz/main
 ```
 
 Keep the terminal open; press **Ctrl+C** to stop.
 
 ### Updating an existing installation
 
-Run the same `install` command above to upgrade from Codex Discord RPC. Your saved privacy options and Codex companion are preserved. Claude support is enabled automatically; no separate helper or uninstall is needed.
+Run the same Windows installer or npm `install` command above to upgrade from Codex Discord RPC. Your saved privacy options and Codex companion are preserved. Claude support is enabled automatically; no separate helper or uninstall is needed.
 
 ## What appears
 
@@ -87,11 +103,29 @@ Discord controls layout and may ignore the requested activity name. The shared r
 
 ## Companions
 
-Clawd is a community pixel-art rendition of Anthropic's orange character, with nine transparent animation loops.
+Clawd now uses **25 complete ready-made animation sequences — 1,093 source frames**, plus three mirrored walking/running variants (**28 transparent GIFs**). These replace the simple nine-loop rendition from 0.4.0. The sprite data comes from [Claude Pet](https://github.com/yuyongyan29-dev/claude-pet/tree/92af7cea39e4331019c41341d90d486cb6f00784), whose notice attributes the artwork to Anthropic's Claude desktop app.
 
-| Thinking                                                              | Working                                                               | Waiting                                                               | Finished                                                              |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| <img src="artwork/claude/clawd/review.gif" width="96" alt="Thinking"> | <img src="artwork/claude/clawd/running.gif" width="96" alt="Working"> | <img src="artwork/claude/clawd/waiting.gif" width="96" alt="Waiting"> | <img src="artwork/claude/clawd/waving.gif" width="96" alt="Finished"> |
+<img src="artwork/claude-native/gallery.gif" width="480" alt="Animated Clawd thinking, typing, walking, meditating, breakdancing and celebrating">
+
+| Activity                              | Clawd animations                                          |
+| ------------------------------------- | --------------------------------------------------------- |
+| Thinking / reviewing                  | Thinking, looking around                                  |
+| Planning                              | Lightbulb, pointing                                       |
+| Editing / working                     | Laptop, desktop computer                                  |
+| Searching / running                   | Walking, crab walking, running, both directions           |
+| Testing                               | Jumping, happy jumping                                    |
+| Organizing context / creating artwork | Meditating, spark effect                                  |
+| Waiting / ready                       | Waving, pointing / confetti, happy dance, excited         |
+| Needs attention                       | Disappointed, facepalm, dizzy                             |
+| Idle                                  | Swaying, eyes looking around, turning, hula, breakdancing |
+
+Multiple clips for the same activity alternate every 30 seconds. The selected project stays fixed. Each GIF contains its complete sequence, including repeated frames and transparency; integer pixel scaling keeps edges sharp, and centisecond timing preserves the source's 12 fps without speeding it up. The standard lifecycle still becomes Idle when a native app finishes; the Ready clips apply when a completed snapshot is displayed.
+
+[Browse all 28 GIFs](artwork/claude-native/clawd) · [Source and frame manifest](artwork/claude-native/clawd/manifest.json)
+
+| Thinking                                                                       | Working                                                                     | Waiting                                                                     | Finished                                                                       |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| <img src="artwork/claude-native/clawd/thinking.gif" width="96" alt="Thinking"> | <img src="artwork/claude-native/clawd/laptop.gif" width="96" alt="Working"> | <img src="artwork/claude-native/clawd/waving.gif" width="96" alt="Waiting"> | <img src="artwork/claude-native/clawd/confetti.gif" width="96" alt="Finished"> |
 
 Codex companions keep their own look:
 
@@ -100,14 +134,14 @@ Codex companions keep their own look:
 Codex retains the original application frames and native timing. Supported Codex pets: `codex`, `dewey`, `fireball`, `hoots`, `rocky`, `seedy`, `stacky`, `bsod`, `null-signal`. The active supported pet is used; if disabled or unsupported, the last supported pet or default Codex companion is used. Custom pets are never uploaded. Only Codex cards show the ChatGPT badge.
 
 ```sh
-npx --yes github:xD-Mohamed/agent-presence install --pet null-signal
+npx --yes https://codeload.github.com/xD-Mohamed/agent-presence/tar.gz/main install --pet null-signal
 ```
 
 `--pet` overrides only Codex; Claude always uses Clawd. `--artwork-base URL` accepts a public HTTPS directory containing `<codex-pet>/<animation>.gif` and `clawd/<animation>.gif`. `--no-image` hides all artwork.
 
 ## Commands
 
-Use the `npx --yes github:xD-Mohamed/agent-presence` prefix:
+With Node/npm installed, use the `npx --yes https://codeload.github.com/xD-Mohamed/agent-presence/tar.gz/main` prefix (`npx.cmd` on Windows):
 
 | Add this           | Result                                              |
 | ------------------ | --------------------------------------------------- |
@@ -121,7 +155,21 @@ Use the `npx --yes github:xD-Mohamed/agent-presence` prefix:
 Options: `--hide-project`, `--hide-model`, `--hide-diff`, `--no-image`, `--pet NAME`, `--codex-home PATH`, `--claude-home PATH`, `--artwork-base URL`.
 
 ```sh
-npx --yes github:xD-Mohamed/agent-presence install --hide-project --hide-diff
+npx --yes https://codeload.github.com/xD-Mohamed/agent-presence/tar.gz/main install --hide-project --hide-diff
+```
+
+With private Node on Windows, the installer prints an offline control command. You can also use:
+
+```powershell
+$record = Get-Content "$env:LOCALAPPDATA\Programs\Codex Discord RPC\install-record.json" -Raw | ConvertFrom-Json
+& $record.node "$env:LOCALAPPDATA\Programs\Codex Discord RPC\src\cli.js" stop
+```
+
+Replace `stop` with `start` or `uninstall`. To pass privacy options to the direct installer:
+
+```powershell
+$installer = irm https://raw.githubusercontent.com/xD-Mohamed/agent-presence/main/install.ps1
+& ([scriptblock]::Create($installer)) -Options @('--hide-project', '--hide-diff')
 ```
 
 Reinstalling without flags preserves saved options. Explicit homes and `CODEX_HOME` / `CLAUDE_CONFIG_DIR` are saved as absolute paths for login startup. Neither assistant's settings, sessions or projects are modified.
@@ -140,7 +188,7 @@ Codex uses `~/.codex`, `CODEX_HOME` or `--codex-home`. Claude uses `~/.claude/pr
 
 Older npm-based Claude runs under Node: fresh transcript activity works, but a generic Node process cannot confirm persistent CLI Idle or immediate closure. Native CLI installations support process-based liveness. Remote/SSH, cloud and WSL-hosted sessions require data and processes accessible in the same environment as Discord; automatic remote bridging is not implemented.
 
-Windows uses a least-privilege per-user Task Scheduler logon task and a windowless .NET launcher compiled from the bundled C# source. It starts Node with `CreateNoWindow`, drains output and does not open a console. No password, VBS, PowerShell startup wrapper or elevated task is used. macOS uses a LaunchAgent; Linux uses XDG autostart. Node must remain at its recorded path; reinstall after moving it.
+Windows uses a least-privilege per-user Task Scheduler logon task and a windowless .NET launcher compiled from the bundled C# source. It starts Node with `CreateNoWindow`, drains output and does not open a console. No password, VBS, PowerShell startup wrapper or elevated task is used. macOS uses a LaunchAgent; Linux uses XDG autostart. Node must remain at its recorded path; reinstall after moving it. Downloaded private Node lives in `%LOCALAPPDATA%\Programs\Agent Presence Runtime` and remains on uninstall for reinstalls; system Node is unchanged.
 
 For upgrade compatibility, **Agent Presence keeps the existing installer directories, identifiers, task names and local control protocol**. Windows files remain in `%LOCALAPPDATA%\Programs\Codex Discord RPC`; the task is `CodexDiscordRPC-<installation-id>`. macOS/Linux retain their `codex-discord-rpc` locations. This updates one existing publisher and keeps preferences. Legacy Windows options/pet are imported only when no current record exists; unrelated files and old runtime files remain untouched. Uninstall removes only recorded managed files and the managed startup entry.
 
@@ -153,6 +201,10 @@ Only assistant identity, a fixed status label, optional model/effort, project ba
 JSONL bodies can pass through the local parser and bounded partial-line buffer, but are not logged or included in public payloads. Tool commands are classified, never executed. Git disables external diffs/text conversion. Runtime has no HTTP client, telemetry or API requests; it talks to local Discord IPC. Discord fetches public immutable artwork URLs. The reader never opens `auth.json` or `.credentials.json`.
 
 ## Troubleshooting
+
+- **`npx.ps1 cannot be loaded` / `PSSecurityException`:** use `npx.cmd` or the direct Windows installer. No execution-policy change is needed.
+- **npm code 128 / Git or SSH error:** use the direct HTTPS archive URL or direct Windows installer; no global Git rewrite or SSH key is required.
+- **`ENOTFOUND registry.npmjs.org` / npm cache denied:** the direct Windows installer does not use the npm registry or npm cache. If GitHub/Node downloads are also blocked, check DNS/network access and run outside the agent sandbox. Downloads stop after three attempts with the failing host and next steps. The installer cannot grant OS or organization permissions.
 
 - **No activity:** open Discord desktop and the assistant/backend, then run `--dry-run --once`. Unsupported process layouts or internal session schemas may prevent detection.
 - **Idle after work:** expected while a supported native surface stays open. New work replaces Idle automatically.
@@ -169,9 +221,10 @@ npm test
 npm run check
 node scripts/build-artwork.js /path/to/v2-sprites artwork/natural
 node scripts/build-clawd.js
+node scripts/preview-clawd.js
 npm pack --dry-run
 ```
 
-The Windows startup integration test requires an isolated machine with no running publisher. On an active workstation run unit tests separately and leave that test to CI. GitHub CI covers Linux/Windows on Node 22.18 and 24, plus installation/update/removal directly from GitHub. Full interactive reboot and real macOS/Linux login startup are not covered.
+The Windows startup integration test requires an isolated machine with no running publisher. On an active workstation run unit tests separately and leave that test to CI. GitHub CI covers Linux/Windows on Node 22.18 and 24, plus npm GitHub/HTTPS installation and direct Windows install/update/control/removal with Node, npm and Git absent from PATH. The private runtime checksum and SQLite capability are verified before startup. Full interactive reboot and real macOS/Linux login startup are not covered.
 
 See [AGENTS.md](AGENTS.md) for architecture and [THIRD_PARTY.md](THIRD_PARTY.md) for attribution. Source code is MIT; OpenAI/Anthropic characters and trademarks are not relicensed. This is an unofficial community integration, not an OpenAI, Anthropic or Discord product.

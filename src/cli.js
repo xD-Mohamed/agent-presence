@@ -2,7 +2,6 @@
 import { homedir } from "node:os";
 import { join } from "node:path";
 import { parseArgs } from "node:util";
-import { CodexSource, activePet } from "./source.js";
 import { activity } from "./activity.js";
 import { DiscordRPC } from "./rpc.js";
 import { APPLICATION_ID, BUILTIN_PETS } from "./config.js";
@@ -33,6 +32,7 @@ const { values, positionals } = parseArgs({
   },
 });
 const command = positionals[0];
+const packageCommand = `${process.platform === "win32" ? "npx.cmd" : "npx"} --yes https://codeload.github.com/xD-Mohamed/agent-presence/tar.gz/main`;
 if (
   positionals.length > 1 ||
   (command && !["install", "uninstall", "start", "stop"].includes(command))
@@ -42,7 +42,7 @@ if (
   );
 if (values.help) {
   console.log(
-    `Agent Presence\n\nUsage: npx github:xD-Mohamed/agent-presence [command] [options]\n\n  install            Install/update background runtime and login startup\n  start              Start the installed runtime\n  stop               Stop the running instance\n  uninstall          Remove startup and installed runtime\n  (no command)       Run in this terminal until Ctrl+C\n\n  --dry-run --once   Preview ONLY the public activity, without Discord\n  --hide-project     Hide the project name\n  --hide-model       Hide model and reasoning effort\n  --hide-diff        Hide Git addition/deletion counts\n  --pet NAME         Override the Codex companion (Claude uses Clawd)\n  --codex-home PATH  Custom Codex data directory\n  --claude-home PATH Custom Claude Code data directory\n  --artwork-base URL Public HTTPS directory for your own artwork\n  --no-image         Text-only activity\n\nRequires Node 22.18+ and Discord desktop. No account token or API key.`,
+    `Agent Presence\n\nUsage: ${packageCommand} [command] [options]\n\n  install            Install/update background runtime and login startup\n  start              Start the installed runtime\n  stop               Stop the running instance\n  uninstall          Remove startup and installed runtime\n  (no command)       Run in this terminal until Ctrl+C\n\n  --dry-run --once   Preview ONLY the public activity, without Discord\n  --hide-project     Hide the project name\n  --hide-model       Hide model and reasoning effort\n  --hide-diff        Hide Git addition/deletion counts\n  --pet NAME         Override the Codex companion (Claude uses Clawd)\n  --codex-home PATH  Custom Codex data directory\n  --claude-home PATH Custom Claude Code data directory\n  --artwork-base URL Public HTTPS directory for your own artwork\n  --no-image         Text-only activity\n\nRequires Node 22.18+ and Discord desktop. No account token or API key.`,
   );
   process.exit(0);
 }
@@ -79,7 +79,7 @@ if (command) {
         }
       await install(args);
       console.log(
-        "Installed and running in the background. It will start automatically at login.\nTo stop: npx github:xD-Mohamed/agent-presence stop\nTo remove: npx github:xD-Mohamed/agent-presence uninstall",
+        `Installed and running in the background. It will start automatically at login.\nTo stop: ${packageCommand} stop\nTo remove: ${packageCommand} uninstall`,
       );
     } else if (command === "uninstall") {
       await uninstall();
@@ -98,6 +98,7 @@ if (command) {
 }
 const home =
   values["codex-home"] || process.env.CODEX_HOME || join(homedir(), ".codex");
+const { CodexSource, activePet } = await import("./source.js");
 const source = new CodexSource(home, {
   hideProject: values["hide-project"],
   hideModel: values["hide-model"],

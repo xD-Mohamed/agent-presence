@@ -1,6 +1,6 @@
 {
   "name": "agent-presence",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Discord Rich Presence for Codex and Claude Code, with animated companions and private-by-default activity.",
   "type": "module",
   "bin": {

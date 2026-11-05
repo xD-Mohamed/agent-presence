@@ -22,3 +22,9 @@ The dependency audit reported zero known vulnerabilities, including development 
 No vendor approval, binary signing, or Bitdefender scan is claimed. A clean source review cannot prove that a user's downloaded files, Node installation, or computer are uncompromised. Keep antivirus protection enabled. For a detection, retain its exact name, affected path, SHA-256 and software version; review those before running or restoring quarantined files. Do not publish tokens or private session files in an issue.
 
 Version 0.4.0 adds the Claude reader and provider selection. No additional runtime network access or dependencies are introduced. Claude hooks/settings are not modified. Legacy installer IDs and protocol remain for in-place upgrades.
+
+## Direct Windows bootstrap (0.5.0)
+
+`install.ps1` downloads from codeload.github.com and extracts only allowlisted runtime files. If compatible Node is unavailable, it downloads the official Node 24.14.1 Windows ZIP from nodejs.org, verifies a pinned SHA-256 and copies only node.exe and LICENSE into a versioned private runtime directory. Reuse checks the stored binary hash and SQLite capability. This installation-time HTTPS access is separate from the installed publisher, which still makes no HTTP requests. The bootstrap does not use npm, Git/SSH or the npm cache.
+
+Downloads have three bounded attempts. Staging cleanup verifies its absolute root and GUID leaf. A per-user mutex prevents simultaneous bootstrap/control commands. No PATH, Git configuration, execution-policy, antivirus or system Node changes are made. Private Node remains after uninstall for reinstalls. A restricted sandbox, network policy or blocked scheduled-task registration can still prevent installation; diagnostics report the failure without claiming success or disabling protections.
